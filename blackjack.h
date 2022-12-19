@@ -1,40 +1,28 @@
 #ifndef BLACKJACK_H
 #define BLACKJACK_H
 
-
-#include <iostream>
-#include <string>
-void blackjack();
-void voitto();
-void havio();
-int annakortti();
-int voitot();
-
 class Blackjack
 {
 public:
     Blackjack();
-     Blackjack(int tunniste);
-
     void playGame();
-    int voitot;
-private:
-    int tunniste;
-    bool peli;
-    int pelaaja_total;
-    int jakajan_total;
-
-};
 
 
-
-
-class Pelaaja: public Blackjack
-{
+    //Staattisen muuttujat:
 public:
-    std::string nimi();
-    int pisteet();
-
+    static void paamenu();
+    static void Title();
+    static void voitto();
+    static void havio();
+private:
+    bool peli;
+    int pk1;
+    int pk2;
+    int jk1;
+    int jk2;
+    int tunnus;
 };
+
+
 
 #endif // BLACKJACK_H

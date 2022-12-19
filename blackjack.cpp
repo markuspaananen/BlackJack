@@ -1,136 +1,29 @@
-#include "blackjack.h"
-#include <cstdlib>
-#include <time.h>
 #include <iostream>
-#include <stdlib.h>
 #include <random>
 
+#include "blackjack.h"
+#include "Pelaaja.h"
+#include "Jakaja.h"
 
-/*
-   Memos - Poista valmiista
 
-*/
-Blackjack::Blackjack()
+void Blackjack::paamenu()
 {
-    //std::cout << "haluamasi pelinumero?: " << "\n";
-    //std::cin >>  tunniste;
+    int exit_game = 1;
 
-
-}
-/*
-Blackjack::Blackjack(int tunniste)
-{
-    //this->tunniste  = tunniste;
-}
-*/
-
-void Blackjack::playGame()
-{
-    peli = true;
-    pelaaja_total = 0;
-    jakajan_total = 0;
-
-     Blackjack pel1 = Blackjack();
-
-
-    std::cout << "Aloitit pelin\n";
-
-    while (peli == true)
-    {
-
-    int jakajan_card1 = annakortti();
-    int jakajan_card2 = annakortti();
-    jakajan_total = jakajan_card1 + jakajan_card2;
-    std::cout << "Jakajan korteista toinen on katketty.\njakajan esilla olevan kortti on " << jakajan_card1 << "\n\n";
-
-
-    int card1 = annakortti();
-    int card2 = annakortti();
-
-    pelaaja_total = card1 + card2;
-    std::cout << "Jakaja antoi sinulle kortit joiden pistearvo on " << card1 << " ja " << card2 << "\n";
-    std::cout << "Sinulla on " << pelaaja_total << " pistetta.\n";
-
-    std::cout << "Haluatko nostaa kortin? Paina Y/n\n";
-    std::string x = "N";
-    std::cin >> x;
-
-    while (x == "Y" || x == "y")
-    {
-        int card3 = annakortti();
-        std::cout << "Nostit kortin jonka arvo on " << card3 << "\n";
-        pelaaja_total = pelaaja_total + card3;
-        std::cout << "Korttiesi arvo on nyt " << pelaaja_total << "\n";
-
-        std::cout << "Haluatko nostaa viela kortin? Y/n\n";
-        std::cin >> x;
-
-        if (pelaaja_total > 22)
+        do
         {
+            Blackjack::Title();
 
-            break;
-        }
-    }
+            Blackjack kasino;
+            kasino.playGame();
+            std::cout << "haluatko pelata uudestaan? (1 = Kylla, 2 = Ei)\n";
 
-    if (pelaaja_total > 21)
-    {
-        havio();
-        peli = false;
-        break;
-    }
-
-    if (pelaaja_total == 21)
-    {
-        voitto();
-        peli = false;
-        break;
-    }
-    std::cout << "Jakaja paljasti korttinsa\n";
-    std::cout << "Jakajalla on " << jakajan_total << " pistetta\n";
-
-
-    while (jakajan_total <= 16)
-    {
-        //std::cout << "Jakajan pistemaara on alle 17\n";
-        std::cout << "Jakaja nosti kortin\n";
-        int card = annakortti();
-        std::cout << "Jakaja nosti kortin jonka arvo on " << card << "\n";
-        jakajan_total = jakajan_total + card;
-        std::cout << "Jakajan korttien arvo on nyt " << jakajan_total << "\n";
-
-    }
-    if (jakajan_total > 21)
-    {
-        voitto();
-        peli = false;
-        break;
-    }
-    if (jakajan_total == 21)
-    {
-        havio();
-        peli = false;
-        break;
-    }
-    if ( jakajan_total < pelaaja_total)
-    {
-        std::cout << "Jakajan korttien arvo on " << jakajan_total << "\n";
-        std::cout << "Pelaajan korttien arvo on " << pelaaja_total << "\n";
-        voitto();
-        break;
-    }
-    else
-    {
-        std::cout << "Jakajan korttien arvo on " << jakajan_total << "\n";
-        std::cout << "Pelaajan korttien arvo on " << pelaaja_total << "\n";
-        havio();
-        break;
-    }
-
-    }
+            std::cin >> exit_game;
+        }while(exit_game == 1);
 
 }
 
-void blackjack()
+void Blackjack::Title()
 {
     system("cls");
     std::cout << "*|********************************************************|*\n";
@@ -146,41 +39,147 @@ void blackjack()
     std::cout << "*|********************************************************|*\n";
 }
 
-
-
-
-void voitto()
+void Blackjack::voitto()
 {
     std::cout << "*|*********************  Voitit pelin  **********************|*\n";
 
+
 }
-void havio()
+void Blackjack::havio()
 {
     std::cout << "-|---------------------  Havisit pelin  ----------------------|-\n";
+
 }
-int annakortti()
+Blackjack::Blackjack()
 {
-    //Pakka. Sekoita ennen käyttöä
-
-    std::random_device dev;
-        std::mt19937 rng(dev());
-        std::uniform_int_distribution<std::mt19937::result_type> num(1,12);
-
-        int pakka[14];
-        pakka[0] = 1;
-        pakka[1] = 2;
-        pakka[2] = 3;
-        pakka[3] = 4;
-        pakka[4] = 5;
-        pakka[5] = 6;
-        pakka[6] = 7;
-        pakka[7] = 8;
-        pakka[8] = 9;
-        pakka[9] = 10; //10
-        pakka[10] = 10; // jätkä
-        pakka[11] = 10; // Kuningatar
-        pakka[12] = 10; // Kuningas
-           //ässä puuttuu
-
-        return pakka[num(rng)];
+    //Vaatii tämän että toimii en tiedä miksi.
+    //Se toimii, olkoon niin sitten.
 }
+
+void Blackjack::playGame()
+{
+
+
+    peli = true;
+    Blackjack::Title();
+    int tunnus;
+    std::cout << "Aseta tunnusnumero?";
+    std::cin >> tunnus;
+
+    Pelaaja a1 = Pelaaja(tunnus);
+    Jakaja a2;
+
+    int pk1 = Pelaaja::annakortti();
+    int pk2 = Pelaaja::annakortti();
+    int jk1 = Jakaja::annakortti(); // Käytetty perintää ehkä turhaan mutta käytetty kuitenkin.
+                                     // En oikein tällä taitotasolla tiennyt miten muuten sitä hyödyntäisin.
+
+    a1.setPisteet(pk1+pk2);
+
+
+    std::cout << "Tunnuslukusi on " << a1.getTunniste() << "\n";
+
+
+    std::cout << "Jakajan korteista toinen on katketty."
+                 "\njakajan esilla olevan kortti on " << jk1 << "\n\n";
+
+    jk1 = jk1 + Pelaaja::annakortti();
+    a2.setPisteet(jk1);
+
+    std::cout << "Jakaja antoi sinulle kortit joiden pistearvo on " << pk1 << " ja " << pk2 << "\n";
+    std::cout << "Sinulla on " << pk1 + pk2 << " pistetta.\n";
+
+    pk1 = pk1 + pk2;
+
+
+
+
+
+    std::cout << "Haluatko nostaa kortin? Paina Y/n\n";
+       std::string x = "N";
+       std::cin >> x;
+
+       while (x == "Y" || x == "y")
+       {
+           int pk2 = Pelaaja::annakortti();
+           std::cout << "Nostit kortin jonka arvo on " << pk2 << "\n";
+           pk1 = pk1 + pk2;
+           std::cout << "Korttiesi arvo on nyt " << pk1 << "\n";
+
+           std::cout << "Haluatko nostaa viela kortin? Y/n\n";
+           std::cin >> x;
+
+           if (pk1 > 22)
+           {
+
+               break;
+           }
+       }
+
+       if (pk1 > 21)
+       {
+           Blackjack::havio();
+           peli = false;
+           return;
+       }
+
+       if (pk1 == 21)
+       {
+           voitto();
+           peli = false;
+           return;
+       }
+       std::cout << "Jakaja paljasti korttinsa\n";
+       std::cout << "Jakajalla on " << jk1 << " pistetta\n";
+
+
+       while (jk1 <= 16)
+       {
+           //std::cout << "Jakajan pistemaara on alle 17\n";
+           std::cout << "Jakaja nosti kortin\n";
+           jk1 += Jakaja::annakortti();
+           std::cout << "Jakajan korttien arvo on nyt " << jk1 << "\n";
+
+       }
+       if (jk1 > 21)
+       {
+           voitto();
+           peli = false;
+           return;
+       }
+       if (jk1 == 21)
+       {
+           havio();
+           peli = false;
+           return;
+       }
+       if ( jk1 < pk1)
+       {
+           std::cout << "Jakajan korttien arvo on " << jk1 << "\n";
+           std::cout << "Pelaajan korttien arvo on " << pk1 << "\n";
+           voitto();
+           return;
+       }
+       else
+       {
+           std::cout << "Jakajan korttien arvo on " << jk1 << "\n";
+           std::cout << "Pelaajan korttien arvo on " << pk1 << "\n";
+           havio();
+           return;
+       }
+}
+
+
+
+
+
+
+        //std::cout << "Pelaaja Pisteet:" << a1.getPisteet() << " tunniste:" << a1.getTunniste() << std::endl;
+        //std::cout << "Jakaja Pisteet:" << a2.getPisteet() << std::endl;
+
+
+
+
+
+
+
